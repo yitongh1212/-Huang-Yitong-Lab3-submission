@@ -1,0 +1,85 @@
+---
+title: "Lab3"
+format:
+  html:
+    embed-resources: true
+---
+
+Question1
+
+```{r}
+met <- read.csv("C:/Users/27753/Desktop/PM566/met_all.gz")
+```
+
+Question 23
+
+```{r}
+dim(met)
+head(met)
+tail(met)   
+str(met) 
+```
+
+Question 4
+
+```{r}
+table(met$year)   
+table(met$day)
+table(met$hour)
+summary(met$temp)
+summary(met$elev)
+summary(met$wind.sp)
+met$elev[met$elev==9999] <- NA
+summary(met$elev)
+met <- met[met$temp>-40,]
+met2 <- met[order(met$temp), ]
+head(met2)
+```
+
+Question 5
+
+```{r}
+met$elev[which.min(met$temp)]
+range(met$elev, na.rm=TRUE)
+met <- met[met$temp>-15,]
+met2 <- met[order(met$temp),]
+head(met2)  
+```
+
+Question 6
+
+```{r}
+elev <- met[met$elev==max(met$elev,na.rm=TRUE), ]
+summary(elev)
+cor(elev$temp, elev$wind.sp, use="complete") 
+cor(elev$temp, elev$hour, use="complete")
+cor(elev$wind.sp, elev$day, use="complete")
+cor(elev$wind.sp, elev$hour, use="complete")
+cor(elev$temp, elev$day, use="complete")
+
+```
+
+Question7
+
+```{r}
+library(leaflet)
+hist(met$elev, breaks=100) 
+hist(met$temp)
+hist(met$wind.sp)
+leaflet(elev) %>%
+  addProviderTiles('OpenStreetMap') %>% 
+  addCircles(lat=~lat,lng=~lon, opacity=1, fillOpacity=1, radius=100)
+
+
+library(lubridate)
+elev$date <- with(elev, ymd_h(paste(year, month, day, hour, sep= ' ')))
+summary(elev$date)
+elev <- elev[order(elev$date),]
+head(elev)
+plot(elev$date, elev$temp, type='l')
+plot(elev$date, elev$wind.sp, type='l')
+```
+
+Question 8
+
+
