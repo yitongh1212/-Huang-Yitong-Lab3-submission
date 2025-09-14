@@ -81,5 +81,13 @@ plot(elev$date, elev$wind.sp, type='l')
 ```
 
 Question 8
+Show the correlation Matrix of the Weather Variables
+
+```{r}
+library(corrplot)
+cor_matrix <- cor(met[,c("temp","wind.sp","elev","atm.press","rh","dew.point")],use="complete.obs")
+corrplot(cor_matrix,method="color",type="upper",title="Correlation Matrix of Weather Variables",
+        mar=c(0,0,1,0))
+```
 
 
